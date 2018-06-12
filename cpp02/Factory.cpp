@@ -1,13 +1,7 @@
 #include "Factory.h"
 
 
-void * CFactory::CreateClass(string className)
-{
-	if (createMap.count(className)) {
-		return createMap[className]();
-	}
-	throw Error_Class_Name();
-}
+
 
 void CFactory::RegisteCreatMap(string className, CFactory::VoidMethod method)
 {

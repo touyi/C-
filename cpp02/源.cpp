@@ -1,27 +1,28 @@
 #include<iostream>
 #include"Factory.h"
 using namespace std;
+#define TT(x)/
+
 class Test :public CProBase {
 public:
 	int a;
 	string str;
-	/*static int& geta(CProBase*_this) {
-	Test* tmp = static_cast<Test*>(_this);
-		return tmp->a;
-	}
-	static void seta(CProBase*_this,void* value){
-		Test* tmp = static_cast<Test*>(_this);
-		tmp->a = static_cast<int>(*value);
-	}*/
+private:
 	DeclearProperty(Test, int, a)
+	DeclearProperty(Test, string, str)
 	virtual void RegisteProperty() {
 		RegisterPro(a)
-		//getMap.insert(std::pair<string, GetPtr>("a", geta)), setMap.insert(std::pair<string, SetPtr>("a", seta));
+		RegisterPro(str)
 	}
 };
+REGISTE(Test)
 
 int main() {
-	
+	CProBase* ba =FactoryCreate<CProBase>("Test");
+	int c = 5;
+	ba->get<string>("str") = "666";
+	ba->get<int>("a") = 15;
+	cout << ba->get<string>("str") << " " << ba->get<int>("a");
 	system("pause");
 	return 0;
 }
