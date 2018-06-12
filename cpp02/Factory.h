@@ -2,6 +2,7 @@
 #include<map>
 #include<string>
 #include<functional>
+#include"ProBase.h"
 using std::string;
 using std::map;
 using std::function;
