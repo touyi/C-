@@ -1,28 +1,23 @@
 #include<iostream>
 #include"Factory.h"
 using namespace std;
-#define TT(x)/
 
-class Test :public CProBase {
-public:
-	int a;
-	string str;
-private:
-	DeclearProperty(Test, int, a)
-	DeclearProperty(Test, string, str)
-	virtual void RegisteProperty() {
-		RegisterPro(a)
-		RegisterPro(str)
-	}
-};
-REGISTE(Test)
 
 int main() {
-	CProBase* ba =FactoryCreate<CProBase>("Test");
+	
+
+	CProBase* ptr = FactoryCreate("Test"); // 根据类名创建类型
 	int c = 5;
-	ba->get<string>("str") = "666";
-	ba->get<int>("a") = 15;
-	cout << ba->get<string>("str") << " " << ba->get<int>("a");
+	ptr->get<string>("str") = "666"; // 反射获取Test对象的str (string)属性
+	ptr->get<int>("a") = 15;         // 反射设置Test对象的a (int)属性
+	cout << ptr->get<string>("str") << " " << ptr->get<int>("a") << endl;  // 输出：666 15
+
+	ptr->Call<void>("fun",123);   // 反射调用Test对象的fun方法 返回为void 传入参数 123
+	delete ptr;
+
+	// 支持虚方法的调用
+	ptr = FactoryCreate("TestDrive");  // TestDrive继承于 Test 并且重写了虚方法 fun
+	ptr->Call<void>("fun", 123);       // 输出：drive 调用为子类方法
 	system("pause");
 	return 0;
 }

@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="ProBase.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="源.cpp" />
   </ItemGroup>
   <ItemGroup>
