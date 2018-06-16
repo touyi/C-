@@ -54,7 +54,7 @@ public:
 
 
 template<typename T = CProBase>
-T* FactoryCreate(string name) {
+inline T* FactoryCreate(string name) {
 	return CFactory::GetInstance().CreateClass<T>(name);
 }
 
