@@ -18,7 +18,8 @@ struct Error_Function_Name {};
 class CProBase
 {
 public:
-	typedef void*(*GetPtr)(CProBase*);
+	// typedef void*(*GetPtr)(CProBase*);
+	typedef void* GetPtr;
 	typedef void* CallFun;
 protected:
 	map<string, GetPtr> getMap;
@@ -26,6 +27,9 @@ protected:
 public:
 	template<typename T>
 	T& get(string pro_name);
+
+	template<typename T>
+	void set(string pro_name,const T& value);
 
 	template<typename ReturnType, typename ClassType = CProBase, typename ...Args>
 	ReturnType Call(string, Args...);
@@ -38,11 +42,20 @@ public:
 template<typename T>
 T& CProBase::get(string pro_name) {
 	if (getMap.count(pro_name)) {
-		T* ret = static_cast<T*>(getMap[pro_name](this));
+		// T* ret = static_cast<T*>(getMap[pro_name](this));
+		T* ret = static_cast<T*>(getMap[pro_name]);
 		if (ret == NULL)throw Error_Type_Return();
 		return *ret;
 	}
 	throw Error_Property_Name();
+}
+
+template<typename T>
+void CProBase::set(string pro_name, const T & value)
+{
+	T* ret = static_cast<T*>(getMap[pro_name]);
+	if (ret == NULL)throw Error_Type_Return();
+	(*ret) = value;
 }
 
 template<typename ReturnType, typename ClassType, typename ...Args>
@@ -62,14 +75,14 @@ virtual void RegisteProperty() {
 
 #define RegistEnd }
 
-#define DeclearProperty(class_type,pro_type,pro_name)\
-static void* get##pro_name(CProBase*_this){\
-	class_type* tmp = static_cast<class_type*>(_this);\
-	return &tmp->pro_name;\
-}
+//#define DeclearProperty(class_type,pro_type,pro_name)\
+//static void* get##pro_name(CProBase*_this){\
+//	class_type* tmp = static_cast<class_type*>(_this);\
+//	return &tmp->pro_name;\
+//}
 
 #define RegistPro(pro_name)\
-getMap.insert(std::pair<string,GetPtr>(#pro_name,get##pro_name));
+getMap.insert(std::pair<string,GetPtr>(#pro_name,&pro_name));
 
 #define RegistFunction(class_type,func_name)\
 static auto func_name##ptr = &class_type::func_name;\

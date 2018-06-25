@@ -14,9 +14,9 @@ public:
 	}
 private:
 	// зЂВс
-	DeclearProperty(Test, int, a)
-		DeclearProperty(Test, string, str)
-		RegistBegin
+	//DeclearProperty(Test, int, a)
+	//DeclearProperty(Test, string, str)
+	RegistBegin
 		RegistPro(a)
 		RegistPro(str)
 		RegistFunction(Test, fun)
